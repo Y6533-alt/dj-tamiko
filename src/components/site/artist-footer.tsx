@@ -5,11 +5,6 @@ import { artist } from "@/content/artist";
 import { navItems } from "@/lib/site";
 import { SocialLinks } from "./social-links";
 
-async function CopyrightYear() {
-  "use cache";
-  return new Date().getFullYear();
-}
-
 export function ArtistFooter() {
   return (
     <footer className="no-print border-t border-white/[0.07] bg-background-2">
@@ -48,7 +43,7 @@ export function ArtistFooter() {
       </div>
       <div className="border-t border-white/[0.05]">
         <p className="mx-auto max-w-7xl px-4 py-6 text-xs text-ink-muted sm:px-6 lg:px-8">
-          © <CopyrightYear /> {artist.name}. All rights reserved.
+          © {new Date().getFullYear()} {artist.name}. All rights reserved.
         </p>
       </div>
     </footer>

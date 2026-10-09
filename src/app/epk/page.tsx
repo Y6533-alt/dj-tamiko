@@ -13,6 +13,7 @@ import { artist, artistPhotos, bio } from "@/content/artist";
 import { pressAssets } from "@/content/press-assets";
 import { formatReleaseDate, getListenLinks, getPublicReleases } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
+import { asset } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "EPK — Electronic Press Kit",
@@ -67,7 +68,7 @@ export default function EpkPage() {
         </div>
         {photos[0] && (
           <div className="relative aspect-[412/512] w-full max-w-64 overflow-hidden rounded-[var(--radius-card)]">
-            <Image src={photos[0].src} alt={photos[0].alt} fill priority sizes="16rem" className="object-cover" />
+            <Image src={asset(photos[0].src)} alt={photos[0].alt} fill priority sizes="16rem" className="object-cover" />
           </div>
         )}
       </header>

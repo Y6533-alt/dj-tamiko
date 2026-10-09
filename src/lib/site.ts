@@ -7,8 +7,24 @@ const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 
 export const siteUrl: string | null = raw ? raw.replace(/\/+$/, "") : null;
 
-/** Base used for absolute metadata URLs; falls back to localhost in development. */
-export const metadataBaseUrl = new URL(siteUrl ?? "http://localhost:3000");
+/** Sub-path the site is served from (e.g. "/dj-tamiko-site" on GitHub Pages), or "". */
+export const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/+$/, "");
+
+/**
+ * Base for absolute metadata URLs. Next already prefixes `basePath`, so it
+ * is stripped here to avoid "/dj-tamiko-site/dj-tamiko-site/…".
+ */
+export const metadataBaseUrl = new URL(
+  siteUrl && basePath && siteUrl.endsWith(basePath) ? siteUrl.slice(0, -basePath.length) || siteUrl : siteUrl ?? "http://localhost:3000",
+);
+
+/**
+ * Prefix a /public path with the base path. next/link adds it automatically;
+ * images, plain <img> and file download links do not.
+ */
+export function asset(path: string) {
+  return path.startsWith("/") ? `${basePath}${path}` : path;
+}
 
 export const navItems = [
   { href: "/", label: "Home" },

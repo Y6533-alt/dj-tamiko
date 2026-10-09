@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { artist } from "@/content/artist";
-import { siteUrl } from "./site";
+import { basePath, siteUrl } from "./site";
 
 /** Per-page metadata with canonical URLs only once a real domain is configured. */
 export function pageMetadata({
@@ -14,14 +14,18 @@ export function pageMetadata({
   path: string;
 }): Metadata {
   const fullTitle = title ? `${title} · ${artist.name}` : `${artist.name} — Deep, Tropical & Chill House`;
+  // Page URLs aren't prefixed with basePath by Next (unlike image files), and
+  // exports use trailing slashes.
+  const trailing = process.env.GITHUB_PAGES === "true" && path !== "/" ? "/" : "";
+  const url = `${basePath}${path}${trailing}`;
   return {
     title: title ?? { absolute: fullTitle },
     description,
-    alternates: siteUrl ? { canonical: path } : undefined,
+    alternates: siteUrl ? { canonical: url } : undefined,
     openGraph: {
       title: fullTitle,
       description,
-      url: path,
+      url,
       siteName: artist.name,
       type: path === "/" ? "website" : "profile",
       locale: "en_US",

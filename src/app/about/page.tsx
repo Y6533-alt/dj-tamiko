@@ -10,6 +10,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { artist, bio, primaryPhoto } from "@/content/artist";
 import { getFeaturedReleases } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
+import { asset } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "About",
@@ -29,7 +30,7 @@ export default function AboutPage() {
           {primaryPhoto && (
             <figure className="relative mx-auto aspect-[412/512] w-full max-w-sm overflow-hidden rounded-[var(--radius-card)] md:sticky md:top-28 md:max-w-none">
               <Image
-                src={primaryPhoto.src}
+                src={asset(primaryPhoto.src)}
                 alt={primaryPhoto.alt}
                 fill
                 priority

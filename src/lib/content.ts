@@ -1,6 +1,7 @@
 import { releases } from "@/content/releases";
 import { heroAtmosphere, heroCoverPositions } from "@/content/hero-images";
 import type { Release } from "@/content/types";
+import { asset } from "@/lib/site";
 import type { StreamImage } from "@/components/ui/image-stream-hero";
 
 /**
@@ -68,8 +69,8 @@ export function formatReleaseDate(iso?: string) {
 export function getHeroImages(): StreamImage[] {
   const covers: StreamImage[] = getPublicReleases()
     .filter((r) => r.published && !r.placeholder)
-    .map((r) => ({ src: r.artwork, position: heroCoverPositions[r.id] ?? "50% 50%" }));
-  const base: StreamImage[] = heroAtmosphere.map((i) => ({ src: i.src, position: i.position }));
+    .map((r) => ({ src: asset(r.artwork), position: heroCoverPositions[r.id] ?? "50% 50%" }));
+  const base: StreamImage[] = heroAtmosphere.map((i) => ({ src: asset(i.src), position: i.position }));
   if (covers.length === 0) return base;
   const out: StreamImage[] = [];
   const n = Math.max(covers.length, base.length);

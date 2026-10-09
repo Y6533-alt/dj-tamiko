@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import type { Release } from "@/content/types";
 import { formatReleaseDate, getListenLinks } from "@/lib/content";
+import { asset } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { MusicPlatformLinks } from "./music-platform-links";
 
@@ -33,7 +34,7 @@ export function ReleaseArtwork({
       {contain && (
         // Blurred fill of the same art so non-square artwork sits uncropped in the square frame.
         <Image
-          src={release.artwork}
+          src={asset(release.artwork)}
           alt=""
           aria-hidden
           fill
@@ -43,7 +44,7 @@ export function ReleaseArtwork({
         />
       )}
       <Image
-        src={release.artwork}
+        src={asset(release.artwork)}
         alt={release.artworkAlt ?? `Artwork for ${release.title}`}
         fill
         sizes={sizes}

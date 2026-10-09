@@ -5,6 +5,7 @@ import { Download, FileText, ImageIcon } from "lucide-react";
 
 import type { PressAsset } from "@/content/types";
 import { buttonVariants } from "@/components/ui/button";
+import { asset as withBase } from "@/lib/site";
 
 /** True only when the asset is approved and its file is actually present in /public (checked at build time). */
 export function isDownloadable(asset: PressAsset) {
@@ -23,7 +24,7 @@ export function PressAssetCard({ asset }: { asset: PressAsset }) {
       <div className="relative aspect-[4/5] bg-surface-2">
         {asset.preview ? (
           <Image
-            src={asset.preview}
+            src={withBase(asset.preview)}
             alt=""
             fill
             sizes="(min-width: 768px) 30vw, 90vw"
@@ -40,7 +41,7 @@ export function PressAssetCard({ asset }: { asset: PressAsset }) {
         {asset.description && <p className="mt-1 text-sm text-ink-muted">{asset.description}</p>}
         {asset.meta && <p className="mt-2 text-xs tracking-wide text-ink-muted">{asset.meta}</p>}
         <a
-          href={asset.file}
+          href={withBase(asset.file)}
           download={fileName}
           className={buttonVariants({ variant: "outline", size: "sm", className: "no-print mt-5 self-start" })}
         >

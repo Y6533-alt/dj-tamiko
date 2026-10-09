@@ -13,7 +13,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { artist, bio, primaryPhoto, socialLinks } from "@/content/artist";
 import { getFeaturedReleases, getLatestRelease } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
-import { siteUrl } from "@/lib/site";
+import { asset, siteUrl } from "@/lib/site";
 
 export const metadata = pageMetadata({
   description: `${bio.short.text} Listen, explore the EPK and get in touch for bookings and collaborations.`,
@@ -83,7 +83,7 @@ export default function HomePage() {
           {primaryPhoto && (
             <div className="reveal relative mx-auto aspect-[412/512] w-full max-w-sm overflow-hidden rounded-[var(--radius-card)] md:max-w-none">
               <Image
-                src={primaryPhoto.src}
+                src={asset(primaryPhoto.src)}
                 alt={primaryPhoto.alt}
                 fill
                 sizes="(min-width: 768px) 40vw, 90vw"
