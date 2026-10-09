@@ -44,8 +44,8 @@ export const bio: { short: BioBlock; long: BioBlock[]; direction: BioBlock } = {
 
 /** Only real, verified profile URLs. Empty until supplied. */
 export const socialLinks: SocialLink[] = [
+  { platform: "spotify", url: "https://open.spotify.com/artist/5GtZhKjB3O76deMDGMWGca" },
   { platform: "youtube", url: "https://www.youtube.com/@REALDJTAMIKO" },
-  // { platform: "spotify", url: "https://open.spotify.com/artist/..." },
   // { platform: "instagram", url: "https://www.instagram.com/..." },
 ];
 

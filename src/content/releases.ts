@@ -6,14 +6,133 @@ import type { Release } from "./types";
  *   2. Add one record below with `published: true` once it's approved.
  * Pages pick it up automatically — no component changes needed.
  *
- * Current records come from the official YouTube channel (@REALDJTAMIKO).
- * - Artwork is the YouTube video thumbnail (16:9, shown uncropped via
- *   `artworkFit: "contain"`). Replace with official square covers when available.
- * - `releaseDate` is the YouTube publish date; update if the official
- *   release date differs.
- * - Genres are left empty until the artist confirms them per track.
+ * Sources:
+ * - Spotify artist profile (5GtZhKjB3O76deMDGMWGca): title, credits, release
+ *   date and official square cover art (640×640) per track.
+ * - YouTube channel (@REALDJTAMIKO): tracks not (yet) matched on Spotify.
+ *   Artwork is the video thumbnail (16:9, shown uncropped via
+ *   `artworkFit: "contain"`); `releaseDate` is the YouTube publish date.
+ * Genres are left empty until the artist confirms them per track.
+ * If a track exists on both platforms, keep one record and fill both URLs.
  */
 export const releases: Release[] = [
+  {
+    id: "feel-alive",
+    title: "Feel Alive",
+    artwork: "/images/releases/feel-alive.jpg",
+    artworkAlt: "Cover art for Feel Alive",
+    releaseDate: "2026-08-21",
+    genres: [],
+    spotifyUrl: "https://open.spotify.com/track/1s9RebSWpCeBhBZ37CsgTX",
+    featured: true,
+    status: "released",
+    published: true,
+  },
+  {
+    id: "dreams-you-made-it",
+    title: "Dreams (You Made It)",
+    artwork: "/images/releases/dreams-you-made-it.jpg",
+    artworkAlt: "Cover art for Dreams (You Made It)",
+    releaseDate: "2026-05-31",
+    genres: [],
+    spotifyUrl: "https://open.spotify.com/track/7lKl5PuTuhqwKmdoJwVl3U",
+    featured: true,
+    status: "released",
+    published: true,
+  },
+  {
+    id: "monster",
+    title: "Monster",
+    artwork: "/images/releases/monster.jpg",
+    artworkAlt: "Cover art for Monster",
+    releaseDate: "2026-03-22",
+    genres: [],
+    spotifyUrl: "https://open.spotify.com/track/3EwyvWMBinm6hMiAXF0v2s",
+    featured: true,
+    status: "released",
+    published: true,
+  },
+  {
+    id: "trouble",
+    title: "Trouble",
+    credit: "Saint Cid & DJ Tamiko",
+    artwork: "/images/releases/trouble.jpg",
+    artworkAlt: "Cover art for Trouble",
+    releaseDate: "2026-02-24",
+    genres: [],
+    spotifyUrl: "https://open.spotify.com/track/6Mg1XDOJD5ywBqOh94YdX3",
+    status: "released",
+    published: true,
+  },
+  {
+    id: "without-your-love",
+    title: "Without Your Love",
+    artwork: "/images/releases/without-your-love.jpg",
+    artworkAlt: "Cover art for Without Your Love",
+    releaseDate: "2025-07-29",
+    genres: [],
+    spotifyUrl: "https://open.spotify.com/track/255tEot54F4lTfr4vbtyqx",
+    featured: true,
+    status: "released",
+    published: true,
+  },
+  {
+    id: "ruin-it-back",
+    title: "Ruin It Back",
+    artwork: "/images/releases/without-your-love.jpg",
+    artworkAlt: "Cover art for Ruin It Back",
+    releaseDate: "2025-07-29",
+    genres: [],
+    spotifyUrl: "https://open.spotify.com/track/1hCuF4BLQUgrY5YwmS2SQL",
+    status: "released",
+    published: true,
+  },
+  {
+    id: "beautiful-lightning",
+    title: "Beautiful Lightning",
+    artwork: "/images/releases/without-your-love.jpg",
+    artworkAlt: "Cover art for Beautiful Lightning",
+    releaseDate: "2025-07-29",
+    genres: [],
+    spotifyUrl: "https://open.spotify.com/track/4fVdjmGpKTPdXyMcP9l1eL",
+    status: "released",
+    published: true,
+  },
+  {
+    id: "psypink",
+    title: "PsyPink",
+    credit: "RONIK & DJ Tamiko",
+    artwork: "/images/releases/psypink.jpg",
+    artworkAlt: "Cover art for PsyPink",
+    releaseDate: "2025-02-24",
+    genres: [],
+    spotifyUrl: "https://open.spotify.com/track/3bkPXNBmGEbLhvsoiQECVl",
+    status: "released",
+    published: true,
+  },
+  {
+    id: "i-know",
+    title: "I KNOW",
+    artwork: "/images/releases/i-know.jpg",
+    artworkAlt: "Cover art for I KNOW",
+    releaseDate: "2024-09-28",
+    genres: [],
+    spotifyUrl: "https://open.spotify.com/track/0S7OadGmCceOlM4luSIMGP",
+    status: "released",
+    published: true,
+  },
+  {
+    id: "lies",
+    title: "Lies",
+    credit: "DJ Tamiko & 7teen",
+    artwork: "/images/releases/lies.jpg",
+    artworkAlt: "Cover art for Lies",
+    releaseDate: "2024-03-28",
+    genres: [],
+    spotifyUrl: "https://open.spotify.com/track/2DIUz1fAhRF02s37vfFPtB",
+    status: "released",
+    published: true,
+  },
   {
     id: "on-you-alive",
     title: "On You (Alive)",
@@ -23,7 +142,6 @@ export const releases: Release[] = [
     releaseDate: "2025-03-13",
     genres: [],
     youtubeUrl: "https://www.youtube.com/watch?v=WNk3Ak7uqGk",
-    featured: true,
     status: "released",
     published: true,
   },

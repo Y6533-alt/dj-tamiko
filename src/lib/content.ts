@@ -3,6 +3,7 @@ import { heroAtmosphere, heroCoverPositions } from "@/content/hero-images";
 import type { Release } from "@/content/types";
 import { asset } from "@/lib/site";
 import type { StreamImage } from "@/components/ui/image-stream-hero";
+import type { EmbedSource } from "@/components/site/embed-lite";
 
 /**
  * Set SHOW_DRAFT_CONTENT=true locally to preview unpublished records
@@ -58,6 +59,14 @@ export function getYouTubeId(url?: string) {
   return null;
 }
 
+/** Preferred in-page player for a release: Spotify track first, then YouTube. */
+export function getEmbedSource(r: Release): EmbedSource | null {
+  const spotifyId = r.spotifyUrl?.match(/open\.spotify\.com\/track\/([A-Za-z0-9]+)/)?.[1];
+  if (spotifyId) return { provider: "spotify", id: spotifyId };
+  const youtubeId = getYouTubeId(r.youtubeUrl);
+  return youtubeId ? { provider: "youtube", id: youtubeId } : null;
+}
+
 export function formatReleaseDate(iso?: string) {
   if (!iso) return null;
   const d = new Date(`${iso}T00:00:00Z`);
@@ -67,8 +76,14 @@ export function formatReleaseDate(iso?: string) {
 
 /** Corridor images: published release artwork interleaved with approved photos/atmosphere. */
 export function getHeroImages(): StreamImage[] {
+  const seen = new Set<string>();
   const covers: StreamImage[] = getPublicReleases()
     .filter((r) => r.published && !r.placeholder)
+    // Several tracks can share one cover (same EP); show each image once.
+    .filter((r) => {
+      const key = r.artwork.replace(/^.*\//, "");
+      return !seen.has(key) && seen.add(key);
+    })
     .map((r) => ({ src: asset(r.artwork), position: heroCoverPositions[r.id] ?? "50% 50%" }));
   const base: StreamImage[] = heroAtmosphere.map((i) => ({ src: asset(i.src), position: i.position }));
   if (covers.length === 0) return base;

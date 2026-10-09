@@ -3,17 +3,17 @@ import { ArrowRight, Mail } from "lucide-react";
 
 import type { Release } from "@/content/types";
 import { artist } from "@/content/artist";
-import { formatReleaseDate, getListenLinks, getYouTubeId } from "@/lib/content";
+import { formatReleaseDate, getEmbedSource, getListenLinks } from "@/lib/content";
 import { buttonVariants } from "@/components/ui/button";
 import { MusicPlatformLinks } from "./music-platform-links";
 import { ReleaseArtwork } from "./release-card";
-import { YouTubeLite } from "./youtube-lite";
+import { EmbedLite } from "./embed-lite";
 
 export function LatestRelease({ release }: { release: Release }) {
   const links = getListenLinks(release);
   const primary = links[0];
   const date = formatReleaseDate(release.releaseDate);
-  const videoId = getYouTubeId(release.youtubeUrl);
+  const embed = getEmbedSource(release);
   const artwork = (
     <ReleaseArtwork
       release={release}
@@ -24,10 +24,10 @@ export function LatestRelease({ release }: { release: Release }) {
 
   return (
     <div className="grid items-center gap-8 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-14">
-      {videoId ? (
-        <YouTubeLite videoId={videoId} title={release.title}>
+      {embed ? (
+        <EmbedLite source={embed} title={release.title}>
           {artwork}
-        </YouTubeLite>
+        </EmbedLite>
       ) : (
         artwork
       )}
