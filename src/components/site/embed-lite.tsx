@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Play } from "lucide-react";
 
-export type EmbedSource = { provider: "youtube" | "spotify"; id: string };
+export type EmbedSource = { provider: "youtube" | "spotify"; id: string; kind?: "track" | "album" };
 
 /**
  * Click-to-load player for YouTube or Spotify. Nothing loads from the
@@ -36,7 +36,7 @@ export function EmbedLite({
       </div>
     ) : (
       <iframe
-        src={`https://open.spotify.com/embed/track/${source.id}?utm_source=generator&theme=0`}
+        src={`https://open.spotify.com/embed/${source.kind ?? "track"}/${source.id}?utm_source=generator&theme=0`}
         title={`${title} — Spotify player`}
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"

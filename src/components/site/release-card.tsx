@@ -1,7 +1,8 @@
 import Image from "next/image";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 
 import type { Release } from "@/content/types";
-import { formatReleaseDate, getListenLinks } from "@/lib/content";
+import { formatReleaseDate, getListenLinks, releaseTypeLabel } from "@/lib/content";
 import { asset } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { MusicPlatformLinks } from "./music-platform-links";
@@ -59,11 +60,69 @@ export function ReleaseArtwork({
   );
 }
 
-export function ReleaseCard({ release, headingLevel = "h3" }: { release: Release; headingLevel?: "h2" | "h3" }) {
+/** Collapsible, numbered tracklist; each track links to its own Spotify page. */
+export function Tracklist({ release, open = false }: { release: Release; open?: boolean }) {
+  const tracks = release.tracks ?? [];
+  return (
+    <details open={open} className="group/tl mt-5 border-t border-white/[0.08] pt-4">
+      <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 text-xs font-semibold tracking-[0.14em] text-ink-muted uppercase hover:text-ink [&::-webkit-details-marker]:hidden">
+        Tracklist ({tracks.length})
+        <ChevronDown className="h-4 w-4 transition-transform group-open/tl:rotate-180" aria-hidden />
+      </summary>
+      <ol className="mt-2 grid gap-0.5">
+        {tracks.map((t, i) => {
+          const label = (
+            <>
+              <span className="w-6 shrink-0 text-right text-xs tabular-nums text-ink-muted">{i + 1}</span>
+              <span className="min-w-0 flex-1">
+                {t.title}
+                {t.credit && <span className="text-ink-muted"> · {t.credit}</span>}
+              </span>
+            </>
+          );
+          return (
+            <li key={`${i}-${t.title}`}>
+              {t.spotifyUrl ? (
+                <a
+                  href={t.spotifyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex min-h-10 items-center gap-3 rounded-lg px-1 text-sm text-ink/90 transition-colors hover:bg-white/5 hover:text-accent"
+                >
+                  {label}
+                  <ArrowUpRight className="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden />
+                  <span className="sr-only"> — listen on Spotify (opens in a new tab)</span>
+                </a>
+              ) : (
+                <span className="flex min-h-10 items-center gap-3 px-1 text-sm text-ink/90">{label}</span>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </details>
+  );
+}
+
+export function ReleaseCard({
+  release,
+  headingLevel = "h3",
+  showTracklist = false,
+}: {
+  release: Release;
+  headingLevel?: "h2" | "h3";
+  /** Show an expandable tracklist for albums / EPs (used on /music). */
+  showTracklist?: boolean;
+}) {
   const Heading = headingLevel;
   const links = getListenLinks(release);
   const date = formatReleaseDate(release.releaseDate);
-  const meta = [release.label, date, release.status === "upcoming" ? "Upcoming" : null].filter(Boolean);
+  const tracks = release.tracks ?? [];
+  const typeLine =
+    release.type !== "single"
+      ? `${releaseTypeLabel[release.type]}${tracks.length ? ` · ${tracks.length} tracks` : ""}`
+      : null;
+  const meta = [typeLine, release.label, date, release.status === "upcoming" ? "Upcoming" : null].filter(Boolean);
 
   return (
     <article className="group print-break-inside-avoid flex flex-col">
@@ -80,6 +139,7 @@ export function ReleaseCard({ release, headingLevel = "h3" }: { release: Release
         ) : (
           <p className="mt-4 text-xs text-ink-muted">Listening links coming soon.</p>
         )}
+        {showTracklist && tracks.length > 0 && <Tracklist release={release} />}
       </div>
     </article>
   );

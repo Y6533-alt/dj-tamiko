@@ -8,7 +8,7 @@ import { PageIntro, Section } from "@/components/site/section";
 import { SocialLinks, hasSocialLinks } from "@/components/site/social-links";
 import { buttonVariants } from "@/components/ui/button";
 import { artist, bio, primaryPhoto } from "@/content/artist";
-import { getFeaturedReleases } from "@/lib/content";
+import { getSelectedReleases } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { asset } from "@/lib/site";
 import { gmailLinkProps } from "@/lib/email";
@@ -20,7 +20,7 @@ export const metadata = pageMetadata({
 });
 
 export default function AboutPage() {
-  const selected = getFeaturedReleases(3);
+  const selected = getSelectedReleases();
 
   return (
     <>

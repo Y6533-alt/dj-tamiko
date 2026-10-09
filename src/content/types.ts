@@ -5,10 +5,28 @@
 
 export type ReleaseStatus = "released" | "upcoming" | "draft";
 
+/** Release format, as listed on the streaming platforms. */
+export type ReleaseType = "album" | "ep" | "single";
+
+export type Track = {
+  title: string;
+  /** Featured/co-artist credit for this track, if any. */
+  credit?: string;
+  spotifyUrl?: string;
+};
+
 export type Release = {
   /** URL-safe unique id, e.g. "golden-hour". */
   id: string;
   title: string;
+  type: ReleaseType;
+  /**
+   * "main": DJ TAMIKØ's own release. "collaboration": released by another
+   * artist with DJ TAMIKØ credited — listed separately on /music.
+   */
+  role?: "main" | "collaboration";
+  /** Tracklist for albums / EPs, in order. */
+  tracks?: Track[];
   /** Artist / producer credit line, e.g. "Tamiko x Guineer". */
   credit?: string;
   /** Path under /public (square artwork, ideally 1500×1500 or larger). */
@@ -23,6 +41,7 @@ export type Release = {
   releaseDate?: string;
   label?: string;
   genres: string[];
+  /** Spotify track URL for singles, album URL for albums / EPs. */
   spotifyUrl?: string;
   soundcloudUrl?: string;
   youtubeUrl?: string;

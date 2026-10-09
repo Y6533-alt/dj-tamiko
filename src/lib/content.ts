@@ -19,9 +19,39 @@ export function getPublicReleases(): Release[] {
   return releases.filter((r) => r.published || showDrafts).sort(byDateDesc);
 }
 
-/** Latest *official* release: published and actually released. */
-export function getLatestRelease(): Release | null {
+const isOwn = (r: Release) => r.role !== "collaboration";
+
+/** Catalog sections shown on /music and the EPK, in display order. */
+export type ReleaseGroupId = "albums" | "eps" | "singles" | "collaborations" | "youtube";
+export const releaseGroups: { id: ReleaseGroupId; title: string }[] = [
+  { id: "albums", title: "Albums" },
+  { id: "eps", title: "EPs" },
+  { id: "singles", title: "Singles" },
+  { id: "collaborations", title: "Collaborations" },
+  { id: "youtube", title: "On YouTube" },
+];
+
+export function getReleaseGroup(r: Release): ReleaseGroupId {
+  if (!r.spotifyUrl && !r.appleMusicUrl && !r.soundcloudUrl && r.youtubeUrl) return "youtube";
+  if (!isOwn(r)) return "collaborations";
+  if (r.type === "album") return "albums";
+  if (r.type === "ep") return "eps";
+  return "singles";
+}
+
+/** Public releases split into the catalog sections; empty sections are omitted. */
+export function getGroupedReleases() {
   const list = getPublicReleases();
+  return releaseGroups
+    .map((g) => ({ ...g, releases: list.filter((r) => getReleaseGroup(r) === g.id) }))
+    .filter((g) => g.releases.length > 0);
+}
+
+export const releaseTypeLabel: Record<Release["type"], string> = { album: "Album", ep: "EP", single: "Single" };
+
+/** Latest *official* release of the artist's own (collaborations excluded). */
+export function getLatestRelease(): Release | null {
+  const list = getPublicReleases().filter(isOwn);
   return (
     list.find((r) => r.featured && r.status === "released") ??
     list.find((r) => r.status === "released") ??
@@ -35,6 +65,14 @@ export function getFeaturedReleases(limit = 4, excludeId?: string): Release[] {
   const featured = list.filter((r) => r.featured);
   const rest = list.filter((r) => !r.featured);
   return [...featured, ...rest].slice(0, limit);
+}
+
+/** About page: every album/EP plus the latest own single. */
+export function getSelectedReleases(): Release[] {
+  const list = getPublicReleases().filter(isOwn);
+  const longform = list.filter((r) => r.type === "album" || r.type === "ep");
+  const latestSingle = list.find((r) => r.type === "single" && r.status === "released");
+  return latestSingle ? [latestSingle, ...longform] : longform;
 }
 
 export function getListenLinks(r: Release) {
@@ -59,10 +97,10 @@ export function getYouTubeId(url?: string) {
   return null;
 }
 
-/** Preferred in-page player for a release: Spotify track first, then YouTube. */
+/** Preferred in-page player for a release: Spotify (track or album) first, then YouTube. */
 export function getEmbedSource(r: Release): EmbedSource | null {
-  const spotifyId = r.spotifyUrl?.match(/open\.spotify\.com\/track\/([A-Za-z0-9]+)/)?.[1];
-  if (spotifyId) return { provider: "spotify", id: spotifyId };
+  const spotify = r.spotifyUrl?.match(/open\.spotify\.com\/(track|album)\/([A-Za-z0-9]+)/);
+  if (spotify) return { provider: "spotify", kind: spotify[1] as "track" | "album", id: spotify[2] };
   const youtubeId = getYouTubeId(r.youtubeUrl);
   return youtubeId ? { provider: "youtube", id: youtubeId } : null;
 }

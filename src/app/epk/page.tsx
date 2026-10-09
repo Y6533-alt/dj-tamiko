@@ -9,7 +9,7 @@ import { ReleaseArtwork } from "@/components/site/release-card";
 import { SocialLinks, hasSocialLinks } from "@/components/site/social-links";
 import { buttonVariants } from "@/components/ui/button";
 import { artist, artistPhotos, bio } from "@/content/artist";
-import { formatReleaseDate, getListenLinks, getPublicReleases } from "@/lib/content";
+import { formatReleaseDate, getGroupedReleases, getListenLinks, getPublicReleases } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { asset } from "@/lib/site";
 import { gmailLinkProps } from "@/lib/email";
@@ -35,6 +35,7 @@ function EpkBlock({ id, title, children }: { id: string; title: string; children
 
 export default function EpkPage() {
   const releases = getPublicReleases();
+  const groups = getGroupedReleases();
   const labels = [...new Set(releases.filter((r) => r.published).map((r) => r.label).filter(Boolean))] as string[];
   const photos = artistPhotos.filter((p) => p.approved);
   const shortBio = approvedBioText("short");
@@ -82,23 +83,36 @@ export default function EpkPage() {
         )}
       </EpkBlock>
 
-      <EpkBlock id="epk-music" title="Selected music">
-        {releases.length > 0 ? (
-          <ul className="grid gap-8">
-            {releases.slice(0, 6).map((r) => {
-              const meta = [r.label, formatReleaseDate(r.releaseDate)].filter(Boolean).join(" · ");
-              return (
-                <li key={r.id} className="print-break-inside-avoid grid grid-cols-[5.5rem_minmax(0,1fr)] gap-5 sm:grid-cols-[7rem_minmax(0,1fr)]">
-                  <ReleaseArtwork release={r} sizes="7rem" className="rounded-xl" />
-                  <div>
-                    <h3 className="font-display text-lg font-semibold">{r.title}</h3>
-                    {meta && <p className="text-sm text-ink-muted">{meta}</p>}
-                    <MusicPlatformLinks links={getListenLinks(r)} releaseTitle={r.title} className="mt-3" />
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+      <EpkBlock id="epk-music" title="Discography">
+        {groups.length > 0 ? (
+          <>
+            <p className="font-display text-lg font-semibold text-ink">
+              {groups.map((g) => `${g.releases.length} ${g.releases.length === 1 ? g.title.replace(/s$/, "") : g.title}`).join(" · ")}
+            </p>
+            <div className="mt-10 grid gap-12">
+              {groups.map((g) => (
+                <div key={g.id}>
+                  <h3 className="font-display text-xs font-semibold tracking-[0.24em] text-ink-muted uppercase">{g.title}</h3>
+                  <ul className="mt-5 grid gap-x-8 gap-y-7 md:grid-cols-2">
+                    {g.releases.map((r) => {
+                      const typeLine = r.tracks?.length ? `${r.tracks.length} tracks` : null;
+                      const meta = [r.credit, typeLine, r.label, formatReleaseDate(r.releaseDate)].filter(Boolean).join(" · ");
+                      return (
+                        <li key={r.id} className="print-break-inside-avoid grid grid-cols-[4.5rem_minmax(0,1fr)] gap-4 sm:grid-cols-[5.5rem_minmax(0,1fr)]">
+                          <ReleaseArtwork release={r} sizes="5.5rem" className="rounded-xl" />
+                          <div className="min-w-0">
+                            <h4 className="font-display text-lg font-semibold">{r.title}</h4>
+                            {meta && <p className="text-sm text-ink-muted">{meta}</p>}
+                            <MusicPlatformLinks links={getListenLinks(r)} releaseTitle={r.title} className="mt-3" />
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </>
         ) : (
           <p className="text-ink-muted">
             Release information will be listed here. Promos and unreleased material are available on request via{" "}
