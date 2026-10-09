@@ -11,6 +11,7 @@ import { artist, bio, primaryPhoto } from "@/content/artist";
 import { getFeaturedReleases } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { asset } from "@/lib/site";
+import { gmailLinkProps } from "@/lib/email";
 
 export const metadata = pageMetadata({
   title: "About",
@@ -28,7 +29,7 @@ export default function AboutPage() {
       <section aria-labelledby="bio-heading" className="py-16 sm:py-24">
         <div className="mx-auto grid max-w-7xl items-start gap-12 px-4 sm:px-6 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-16 lg:px-8">
           {primaryPhoto && (
-            <figure className="relative mx-auto aspect-[412/512] w-full max-w-sm overflow-hidden rounded-[var(--radius-card)] md:sticky md:top-28 md:max-w-none">
+            <figure className="relative mx-auto aspect-[412/468] w-full max-w-sm overflow-hidden rounded-[var(--radius-card)] md:sticky md:top-28 md:max-w-none">
               <Image
                 src={asset(primaryPhoto.src)}
                 alt={primaryPhoto.alt}
@@ -76,7 +77,7 @@ export default function AboutPage() {
               <Link href="/epk" className={buttonVariants()}>
                 Explore EPK <ArrowRight aria-hidden />
               </Link>
-              <a href={`mailto:${artist.email}`} className={buttonVariants({ variant: "outline" })}>
+              <a {...gmailLinkProps()} className={buttonVariants({ variant: "outline" })}>
                 <Mail aria-hidden /> Email
               </a>
             </div>

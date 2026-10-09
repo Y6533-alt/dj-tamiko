@@ -12,7 +12,7 @@ export const pressAssets: PressAsset[] = [
     file: "/press/dj-tamiko-press-photo-01.jpg",
     preview: "/images/artist/tamiko-shattered-mirror.jpg",
     kind: "photo",
-    meta: "JPG · 412 × 512 px",
+    meta: "JPG · 412 × 468 px",
     approvedForDistribution: true,
   },
   // TODO(content): high-resolution press photos, logo pack (SVG/PNG), one-sheet PDF.

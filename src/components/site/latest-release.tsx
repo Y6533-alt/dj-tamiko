@@ -2,9 +2,9 @@ import Link from "next/link";
 import { ArrowRight, Mail } from "lucide-react";
 
 import type { Release } from "@/content/types";
-import { artist } from "@/content/artist";
 import { formatReleaseDate, getEmbedSource, getListenLinks } from "@/lib/content";
 import { buttonVariants } from "@/components/ui/button";
+import { gmailLinkProps } from "@/lib/email";
 import { MusicPlatformLinks } from "./music-platform-links";
 import { ReleaseArtwork } from "./release-card";
 import { EmbedLite } from "./embed-lite";
@@ -89,7 +89,7 @@ export function MusicEmptyState({ compact = false }: { compact?: boolean }) {
         For promos, previews and label submissions, reach out directly.
       </p>
       <div className="mt-7 flex flex-wrap gap-3">
-        <a href={`mailto:${artist.email}?subject=${encodeURIComponent("Promo request")}`} className={buttonVariants()}>
+        <a {...gmailLinkProps("Promo request")} className={buttonVariants()}>
           <Mail aria-hidden />
           Request promos
         </a>

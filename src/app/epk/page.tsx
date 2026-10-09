@@ -14,6 +14,7 @@ import { pressAssets } from "@/content/press-assets";
 import { formatReleaseDate, getListenLinks, getPublicReleases } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { asset } from "@/lib/site";
+import { gmailLinkProps } from "@/lib/email";
 
 export const metadata = pageMetadata({
   title: "EPK — Electronic Press Kit",
@@ -60,14 +61,14 @@ export default function EpkPage() {
             ))}
           </ul>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href={`mailto:${artist.email}?subject=${encodeURIComponent("Booking inquiry")}`} className={buttonVariants({ size: "sm", className: "no-print" })}>
+            <a {...gmailLinkProps("Booking inquiry")} className={buttonVariants({ size: "sm", className: "no-print" })}>
               <Mail aria-hidden /> Booking inquiry
             </a>
             <PrintButton />
           </div>
         </div>
         {photos[0] && (
-          <div className="relative aspect-[412/512] w-full max-w-64 overflow-hidden rounded-[var(--radius-card)]">
+          <div className="relative aspect-[412/468] w-full max-w-64 overflow-hidden rounded-[var(--radius-card)]">
             <Image src={asset(photos[0].src)} alt={photos[0].alt} fill priority sizes="16rem" className="object-cover" />
           </div>
         )}
@@ -104,7 +105,7 @@ export default function EpkPage() {
         ) : (
           <p className="text-ink-muted">
             Release information will be listed here. Promos and unreleased material are available on request via{" "}
-            <a className="print-show-url text-accent underline underline-offset-4 hover:text-ink" href={`mailto:${artist.email}`}>
+            <a className="text-accent underline underline-offset-4 hover:text-ink" {...gmailLinkProps()}>
               {artist.email}
             </a>
             .
@@ -141,8 +142,8 @@ export default function EpkPage() {
       <EpkBlock id="epk-contact" title="Contact">
         <p className="text-ink-muted">Bookings, collaborations, label and A&amp;R inquiries:</p>
         <a
-          href={`mailto:${artist.email}`}
-          className="print-show-url mt-3 inline-block font-display text-2xl font-semibold break-all text-ink hover:text-accent sm:text-3xl"
+          {...gmailLinkProps()}
+          className="mt-3 inline-block font-display text-2xl font-semibold break-all text-ink hover:text-accent sm:text-3xl"
         >
           {artist.email}
         </a>

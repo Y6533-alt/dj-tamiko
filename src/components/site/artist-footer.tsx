@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Mail } from "lucide-react";
 
 import { artist } from "@/content/artist";
+import { gmailLinkProps } from "@/lib/email";
 import { navItems } from "@/lib/site";
 import { SocialLinks } from "./social-links";
 
@@ -33,7 +34,7 @@ export function ArtistFooter() {
         <div>
           <h2 className="font-display text-xs font-semibold tracking-[0.2em] text-ink-muted uppercase">Contact</h2>
           <a
-            href={`mailto:${artist.email}`}
+            {...gmailLinkProps()}
             className="mt-3 inline-flex min-h-9 items-center gap-2 text-sm break-all text-ink hover:text-accent"
           >
             <Mail className="h-4 w-4 shrink-0 text-accent" aria-hidden />

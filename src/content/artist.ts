@@ -15,6 +15,8 @@ export const artist = {
   genres: ["Deep House", "Tropical House", "Chill House"],
   tagline: "Melodies that move you.",
   email: "tamirshpmusic@gmail.com",
+  /** Instagram handle — also offered as a contact channel (opens a DM). */
+  instagram: "djtamikofficial",
   /** Path to an approved logo file under /public, or null to use the text wordmark. */
   logo: null as string | null,
 } as const;
@@ -45,8 +47,8 @@ export const bio: { short: BioBlock; long: BioBlock[]; direction: BioBlock } = {
 /** Only real, verified profile URLs. Empty until supplied. */
 export const socialLinks: SocialLink[] = [
   { platform: "spotify", url: "https://open.spotify.com/artist/5GtZhKjB3O76deMDGMWGca" },
+  { platform: "instagram", url: "https://www.instagram.com/djtamikofficial/" },
   { platform: "youtube", url: "https://www.youtube.com/@REALDJTAMIKO" },
-  // { platform: "instagram", url: "https://www.instagram.com/..." },
 ];
 
 export const artistPhotos: ArtistPhoto[] = [
@@ -54,7 +56,7 @@ export const artistPhotos: ArtistPhoto[] = [
     src: "/images/artist/tamiko-shattered-mirror.jpg",
     alt: "DJ TAMIKØ in a black outfit looking up at the camera through shards of a broken mirror, against a deep red backdrop.",
     width: 412,
-    height: 512,
+    height: 468,
     // TODO(content): add photographer credit if required.
     approved: true,
   },

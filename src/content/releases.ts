@@ -155,7 +155,8 @@ export const releases: Release[] = [
     genres: [],
     youtubeUrl: "https://www.youtube.com/watch?v=7GHhmbDEqaA",
     status: "released",
-    published: true,
+    // Hidden from the site at the artist's request.
+    published: false,
   },
   {
     id: "towline-tamiko-remix",
@@ -168,7 +169,8 @@ export const releases: Release[] = [
     genres: [],
     youtubeUrl: "https://www.youtube.com/watch?v=PDHyx6VEXLA",
     status: "released",
-    published: true,
+    // Hidden from the site at the artist's request.
+    published: false,
   },
   {
     id: "the-latin-dance",

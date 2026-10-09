@@ -81,7 +81,7 @@ export default function HomePage() {
       <Section id="about" eyebrow="The artist" title={`About ${artist.name}`}>
         <div className="grid items-center gap-10 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-16">
           {primaryPhoto && (
-            <div className="reveal relative mx-auto aspect-[412/512] w-full max-w-sm overflow-hidden rounded-[var(--radius-card)] md:max-w-none">
+            <div className="reveal relative mx-auto aspect-[412/468] w-full max-w-sm overflow-hidden rounded-[var(--radius-card)] md:max-w-none">
               <Image
                 src={asset(primaryPhoto.src)}
                 alt={primaryPhoto.alt}
