@@ -4,13 +4,11 @@ import { Mail } from "lucide-react";
 import { approvedBioText, ArtistBio } from "@/components/site/artist-bio";
 import { CopyButton } from "@/components/site/copy-button";
 import { MusicPlatformLinks } from "@/components/site/music-platform-links";
-import { PressAssetCard, isDownloadable } from "@/components/site/press-asset-card";
 import { PrintButton } from "@/components/site/print-button";
 import { ReleaseArtwork } from "@/components/site/release-card";
 import { SocialLinks, hasSocialLinks } from "@/components/site/social-links";
 import { buttonVariants } from "@/components/ui/button";
 import { artist, artistPhotos, bio } from "@/content/artist";
-import { pressAssets } from "@/content/press-assets";
 import { formatReleaseDate, getListenLinks, getPublicReleases } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { asset } from "@/lib/site";
@@ -39,7 +37,6 @@ export default function EpkPage() {
   const releases = getPublicReleases();
   const labels = [...new Set(releases.filter((r) => r.published).map((r) => r.label).filter(Boolean))] as string[];
   const photos = artistPhotos.filter((p) => p.approved);
-  const downloads = pressAssets.filter(isDownloadable);
   const shortBio = approvedBioText("short");
   const longBio = approvedBioText("long");
 
@@ -123,11 +120,23 @@ export default function EpkPage() {
         </EpkBlock>
       )}
 
-      {downloads.length > 0 && (
-        <EpkBlock id="epk-press" title="Press assets">
+      {photos.length > 0 && (
+        <EpkBlock id="epk-photos" title="Photos">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {downloads.map((a) => (
-              <PressAssetCard key={a.id} asset={a} />
+            {photos.map((p) => (
+              <div
+                key={p.src}
+                className="print-break-inside-avoid relative overflow-hidden rounded-[var(--radius-card)] border border-white/[0.08]"
+                style={{ aspectRatio: `${p.width} / ${p.height}` }}
+              >
+                <Image
+                  src={asset(p.src)}
+                  alt={p.alt}
+                  fill
+                  sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
+                  className="object-cover"
+                />
+              </div>
             ))}
           </div>
         </EpkBlock>
