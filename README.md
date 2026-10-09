@@ -65,9 +65,23 @@ site emits `noindex` and `robots.txt` disallows crawling, so previews never get 
 canonical URLs are claimed. With it set: canonical URLs, absolute OG URLs, sitemap reference
 and `MusicGroup` structured data with `url`/`image`.
 
-## Deploy (not yet deployed)
+## Deploy — GitHub Pages (configured)
 
-Recommended: Vercel (zero-config for Next.js), on an artist-owned account.
+`.github/workflows/deploy-pages.yml` builds a static export and publishes it on every push to
+`main`. One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
+
+- The workflow sets `GITHUB_PAGES=true`, the repo sub-path (`NEXT_PUBLIC_BASE_PATH`) and the
+  public URL (`NEXT_PUBLIC_SITE_URL`) automatically.
+- Use `asset("/images/...")` from `@/lib/site` for any new `<Image>`/`<img>`/file link so it
+  works under the sub-path (`next/link` handles it automatically).
+- Test the export locally: `GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/dj-tamiko-site npm run build`
+  → output in `out/`.
+- Custom domain: add it in Settings → Pages, then set `NEXT_PUBLIC_SITE_URL` to it and clear
+  the base path in the workflow.
+
+## Deploy — alternative: Vercel
+
+Zero-config for Next.js (keeps image optimization), on an artist-owned account.
 
 1. Push this repo to GitHub (artist-owned account).
 2. Import it in Vercel → framework auto-detected → Deploy.
