@@ -43,9 +43,32 @@ export function ArtistFooter() {
         </div>
       </div>
       <div className="border-t border-white/[0.05]">
-        <p className="mx-auto max-w-7xl px-4 py-6 text-xs text-ink-muted sm:px-6 lg:px-8">
-          © {new Date().getFullYear()} {artist.name}. All rights reserved.
-        </p>
+        <div className="mx-auto max-w-7xl space-y-3 px-4 py-8 text-xs leading-relaxed text-ink-muted sm:px-6 lg:px-8">
+          <p className="font-medium text-ink/80">
+            © {new Date().getFullYear()} {artist.name}. All rights reserved.
+          </p>
+          <p className="max-w-4xl">
+            All music, recordings, compositions, artwork, photos and other content on this website are protected by
+            copyright and are the property of {artist.name} and, where applicable, the respective co-artists and rights
+            holders.
+          </p>
+          <p className="max-w-4xl">
+            No music or content may be used without the prior written permission of the artist. This includes, without
+            limitation, copying, downloading, re-uploading, distributing, remixing, sampling, editing, synchronising with
+            video or film, broadcasting, public performance, and any commercial or promotional use. Unauthorised use may
+            constitute copyright infringement.
+          </p>
+          <p>
+            For licensing, permission or usage requests, contact{" "}
+            <a
+              {...gmailLinkProps("Licensing / permission request")}
+              className="text-ink/80 underline underline-offset-4 hover:text-accent"
+            >
+              {artist.email}
+            </a>
+            .
+          </p>
+        </div>
       </div>
     </footer>
   );
